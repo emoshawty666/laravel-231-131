@@ -1,5 +1,10 @@
 @extends('layout')
 @section('content')
+
+@if(session('status'))
+  <div class="alert alert-success">{{session('status')}}</div>
+@endif
+
 <div class="card" style="width: 68rem;">
   <img src="..." class="card-img-top" alt="...">
   <div class="card-body">
@@ -12,11 +17,7 @@
   <div class="card-body">
 
   <div class="btn-toolbar" role="toolbar">
-    <form action="/article/{{$article->id}}" method="post">
-        @csrf
-        @method('PUT')
-        <button type="submit" class="btn btn-success me-3">Article Update</button>
-    </form>
+    <a class="btn btn-success" href="/article/{{$article->id}}/edit">Article Edit</a>
     <form action="/article/{{$article->id}}" method="post">
         @csrf
         @method('DELETE')

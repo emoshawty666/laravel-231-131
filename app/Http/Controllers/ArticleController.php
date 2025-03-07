@@ -13,7 +13,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(5);
+        $articles = Article::latest()->paginate(5);
         return view('article.index', ['articles' => $articles]);
     }
 
@@ -31,10 +31,17 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date'=>'required|type=date',
-            'title' =>'required|',
+            'date'=>'required|date',
+            'title' =>'required|min:6',
             'text'=>'required|',
         ]);
+        $article = new Article;
+        $article->date_print = request('date');
+        $article->title = request('title');
+        $article->text = request('text');
+        $article->user_id = auth()->id();
+        $article->save();
+        return redirect()->route('article.index');
     }
 
     /**
@@ -51,7 +58,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return view('article.edit', ['article'=>$article]);
     }
 
     /**
@@ -59,7 +66,17 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        //
+        $request->validate([
+            'date'=>'required|date',
+            'title' =>'required|min:6',
+            'text'=>'required|',
+        ]);
+        $article->date_print = request('date');
+        $article->title = request('title');
+        $article->text = request('text');
+        $article->user_id = auth()->id();
+        $article->save();
+        return redirect()->route('article.show',['article'=>$article->id])->with('status','Update success');
     }
 
     /**
@@ -67,6 +84,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+       $article->delete();
+       return redirect()->route('article.index')->with('status','Delete success');
     }
 }
