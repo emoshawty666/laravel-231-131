@@ -15,7 +15,7 @@
     <li class="list-group-item">{{$article->text}}</li>
   </ul>
   <div class="card-body">
-
+@can('update', $article)
   <div class="btn-toolbar" role="toolbar">
     <a class="btn btn-success" href="/article/{{$article->id}}/edit">Article Edit</a>
     <form action="/article/{{$article->id}}" method="post">
@@ -24,6 +24,7 @@
     <button type="submit" class="btn btn-danger">Article Delete</button>
     </form>
     </div>
+@endcan
     </div>
 </div>
 @endsection

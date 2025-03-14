@@ -22,9 +22,11 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/article">Article</a>
         </li>
+        @can('create')
         <li class="nav-item">
           <a class="nav-link" href="/article/create">Create Article</a>
         </li>
+        @endcan
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown

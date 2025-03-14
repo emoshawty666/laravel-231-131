@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class ArticleController extends Controller
 {
@@ -22,6 +23,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create',self::class);
         return view('article.create');
     }
 
@@ -66,6 +68,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
+        Gate::authorize('update', [self::class, $article]);
         $request->validate([
             'date'=>'required|date',
             'title' =>'required|min:6',
@@ -84,6 +87,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+    Gate::authorize('delete', [self::class, $article]);
        $article->delete();
        return redirect()->route('article.index')->with('status','Delete success');
     }

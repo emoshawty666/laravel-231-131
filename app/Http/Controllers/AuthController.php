@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Hash;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
     public function signup(){
@@ -41,6 +41,7 @@ class AuthController extends Controller
             'password'=>'required|min:6',
         ]);
         
+        Log::alert($request);
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
             return redirect()->intended('/');
