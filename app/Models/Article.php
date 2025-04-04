@@ -10,10 +10,12 @@ class Article extends Model
     use HasFactory;
 
     public function user(){
-        return belongTo(User::class);
+        return belongsTo(User::class);
+        
     }
 
-    public function comment(){
-        return $this->hasMany(Article::class);
+    public function comment() {
+        return $this->hasMany(Comment::class);
+
     }
 }

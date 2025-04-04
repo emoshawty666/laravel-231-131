@@ -28,21 +28,28 @@
 </div>
 
 
-<div class="text-center mt-5">
-    <h1>Add new Comments</h1>
-</div>
-<div class="mb-3">
+<h1 class="text-center mt-5">Comments</h1>
+<div class="container">
+  @if(session('save'))-
+  <div class="alert  alert-success">
+    <p>{{session('save')}}</p>
+  </div>
+  @endif
+<form action="/comments" method=POST  class="mb-3">
+    @csrf
+    <input type="hidden" name="article_id" value="{{$article->id}}">
+  <div class="mb-3">
     <label for="title" class="form-label">Title</label>
-    <input type="title" class="form-control" id="title" name="title">
+    <input type="text" class="form-control" id="title" name="title" placeholder="Enter your title">
   </div>
   <div class="mb-3">
     <label for="text" class="form-label">Text</label>
-    <textarea name="text" id="text" class="form-control" placeholder="Write something..."></textarea>
+    <textarea type="text" class="form-control" id="text" name="text" placeholder="Your text"></textarea>
   </div>
-<div class="btn-toolbar" role="toolbar">
-    <a class="btn btn-success" href="/article/{{$article->id}}/edit">Add comment</a>
-    </div>
-
+  
+  <button type="submit" class="btn btn-primary">Create comment</button>
+</form>
+</div>
 
 <h1>Comments</h1>
 @foreach($comments as $comments)
@@ -52,7 +59,7 @@
     <p class="card-text">{{App\Models\User::findOrFail($comments->user_id)->name}}</p>
     <div class="btn-toolbar" role="toolbar">
     <a class="btn btn-success me-3" href="/comments/{{$comments->id}}/edit">Comment Edit</a>
-    <a class="btn btn-danger me-3" href="/comments/{{$comments->id}}/edit">Comment Delete</a>
+    <a class="btn btn-danger me-3" href="/comments/{{$comments->id}}/delete">Comment Delete</a>
     </div>
   </div>
 @endforeach

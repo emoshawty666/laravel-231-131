@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +15,18 @@ use App\Http\Controllers\ArticleController;
 |
 */
 //Article
-Route::resource('/article',ArticleController::class);
+Route::resource('/article', ArticleController::class)->middleware('auth:sanctum');
+Route::get('article/{article}', [ArticleController::class, 'show'])->name('article.show')->middleware('show');
 
+//comments
+Route::controller(CommentController::class)->middleware('auth:sanctum')->prefix('/comments')
+        ->group(function(){
+            Route::post('', 'store');
+            Route::get('/{comment}/edit','edit');
+            Route::post('/{comment}','update');
+            Route::get('/{comment}/delete','delete');
+        }
+);
 
 //Auth
 Route::get('/auth/signup', [AuthController::class, 'signup']);

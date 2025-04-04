@@ -29,9 +29,10 @@ class ArticleControllerPolicy
      */
     public function create(User $user)
     {
-        return $user->role === 'admin' ?
+        return $user->role == 'moderator' ?
                     Response::allow() :
                     Response::deny('You don`t moderator');
+
     }
 
     /**
@@ -39,7 +40,8 @@ class ArticleControllerPolicy
      */
     public function update(User $user, Article $article)
     {
-        return $user->role === 'admin' ?
+        
+        return $user->role == 'moderator' ?
                     Response::allow() :
                     Response::deny('You don`t moderator');
     }
@@ -49,7 +51,8 @@ class ArticleControllerPolicy
      */
     public function delete(User $user, Article $article)
     {
-        return $user->role === 'admin' ?
+
+        return $user->role == 'moderator' ?
                     Response::allow() :
                     Response::deny('You don`t moderator');
     }
