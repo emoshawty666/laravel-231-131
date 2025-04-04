@@ -1,6 +1,6 @@
 <template>
     <div v-if="article != null" class="alert alert-primary" role="alert">
-        Добавлена новая статья <strong> <a :href="`/article/${article.id}`"> {{ article.name }}</a></strong>
+        Добавлена новая статья <strong> <a :href="'/article' + article.id"> {{ article.title }}</a></strong>
     </div>
 </template>
 
@@ -8,10 +8,10 @@
     export default {
     data() { return { article: null } },
         created() {
-            window.Echo.channel('test').listen('NewArticleEvent', (article) => {
+            window.Echo.channel('test').listen('ArticleCreateEvent', (article) => {
                 console.log(article);
                 this.article=article.article;
-                alert('Добавлена новая статья!');
+                // alert('Добавлена новая статья!');
             })
         }
     }
